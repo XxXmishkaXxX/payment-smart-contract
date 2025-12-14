@@ -1,88 +1,352 @@
-# 🏗 Scaffold-ETH 2
+# 💳 Смарт-контракт для приёма произвольных платежей
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+Учебный проект для изучения работы с Ethereum смарт-контрактами. Полноценное приложение, включающее Solidity контракт, Express backend и React frontend.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+## 📋 Описание
 
-⚙️ Built using NextJS, RainbowKit, Foundry/Hardhat, Wagmi, Viem, and Typescript.
+Проект демонстрирует создание простого смарт-контракта для приёма платежей в ETH. Контракт сохраняет информацию о каждом платеже (отправитель, сумма, время) и предоставляет методы для получения истории платежей и вывода средств владельцем.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+### Что реализовано:
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+- ✅ **Смарт-контракт** на Solidity для приёма платежей
+- ✅ **Backend API** на Express для чтения данных из контракта
+- ✅ **Frontend** на React с подключением MetaMask
+- ✅ **Полный цикл**: отправка платежей, просмотр истории, вывод средств
+- ✅ **Тестирование** на локальной сети Hardhat
 
-## Requirements
-
-Before you begin, you need to install the following tools:
-
-- [Node (>= v20.18.3)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
-
-## Quickstart
-
-To get started with Scaffold-ETH 2, follow the steps below:
-
-1. Install the latest version of Scaffold-ETH 2
+## 🏗 Архитектура
 
 ```
-npx create-eth@latest
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│   Frontend  │──────▶│   Backend   │──────▶│  Blockchain │
+│  (React)    │◀──────│  (Express)  │◀──────│  (Hardhat)  │
+└─────────────┘      └─────────────┘      └─────────────┘
+     │                      │                      │
+     │                      │                      │
+     └──────────────────────┴──────────────────────┘
+                    MetaMask (кошелёк)
 ```
 
-This command will install all the necessary packages and dependencies, so it might take a while.
+## 🛠 Технологический стек
 
-> [!NOTE]
-> You can also initialize your project with one of our extensions to add specific features or starter-kits. Learn more in our [extensions documentation](https://docs.scaffoldeth.io/extensions/).
+### Blockchain
+- **Solidity ^0.8.x** - язык программирования смарт-контрактов
+- **Hardhat** - фреймворк для разработки и тестирования
 
-2. Run a local network in the first terminal:
+### Backend
+- **Node.js** - серверная платформа
+- **Express** - веб-фреймворк
+- **ethers.js v6** - библиотека для взаимодействия с Ethereum
 
-```
-yarn chain
-```
+### Frontend
+- **React 18** - UI библиотека
+- **Vite** - сборщик и dev-сервер
+- **ethers.js v6** - взаимодействие с блокчейном через MetaMask
+- **Axios** - HTTP клиент
 
-This command starts a local Ethereum network that runs on your local machine and can be used for testing and development. Learn how to [customize your network configuration](https://docs.scaffoldeth.io/quick-start/environment#1-initialize-a-local-blockchain).
-
-3. On a second terminal, deploy the test contract:
-
-```
-yarn deploy
-```
-
-This command deploys a test smart contract to the local network. You can find more information about how to customize your contract and deployment script in our [documentation](https://docs.scaffoldeth.io/quick-start/environment#2-deploy-your-smart-contract).
-
-4. On a third terminal, start your NextJS app:
+## 📁 Структура проекта
 
 ```
-yarn start
+payment-smart-contract/
+├── contracts/                    # Solidity контракты
+│   └── PaymentContract.sol      # Основной контракт
+├── packages/hardhat/             # Hardhat конфигурация
+│   ├── contracts/
+│   │   └── PaymentContract.sol  # Копия контракта для компиляции
+│   ├── scripts/
+│   │   └── deploy-payment.js    # Скрипт развертывания
+│   └── test/
+│       └── PaymentContract.test.ts  # Unit-тесты
+├── backend/                      # Express сервер
+│   ├── server.js                # Основной файл сервера
+│   ├── package.json
+│   └── env.example              # Пример конфигурации
+├── frontend/                     # React приложение
+│   ├── src/
+│   │   ├── App.jsx              # Главный компонент
+│   │   ├── main.jsx             # Точка входа
+│   │   └── index.css            # Стили
+│   ├── package.json
+│   └── env.example              # Пример конфигурации
+└── README.md                     # Этот файл
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+## 🚀 Быстрый старт
 
-**What's next**:
+### Предварительные требования
 
-Visit the [What's next section of our docs](https://docs.scaffoldeth.io/quick-start/environment#whats-next) to learn how to:
+- Node.js >= 18
+- npm или yarn
+- MetaMask расширение для браузера
 
-- Edit your smart contracts
-- Edit your deployment scripts
-- Customize your frontend
-- Edit the app config
-- Writing and running tests
-- [Setting up external services and API keys](https://docs.scaffoldeth.io/deploying/deploy-smart-contracts#configuration-of-third-party-services-for-production-grade-apps)
+### 1. Установка зависимостей
 
-## Documentation
+```bash
+# Установка зависимостей для Hardhat (если еще не установлены)
+cd packages/hardhat
+npm install --legacy-peer-deps
 
-Visit our [docs](https://docs.scaffoldeth.io) to learn all the technical details and guides of Scaffold-ETH 2.
+# Установка зависимостей для Backend
+cd ../../backend
+npm install
 
-To know more about its features, check out our [website](https://scaffoldeth.io).
+# Установка зависимостей для Frontend
+cd ../frontend
+npm install
+```
 
-## Contributing to Scaffold-ETH 2
+### 2. Запуск локального блокчейна
 
-We welcome contributions to Scaffold-ETH 2!
+Откройте **первый терминал**:
 
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+```bash
+cd /home/misha/projects/payment-smart-contract
+.yarn/releases/yarn-3.2.3.cjs workspace @se-2/hardhat chain
+```
+
+Или напрямую через Hardhat:
+
+```bash
+cd packages/hardhat
+node_modules/.bin/hardhat node --network hardhat --no-deploy
+```
+
+**Важно:** Оставьте этот терминал открытым. Вы увидите список аккаунтов с приватными ключами и 10,000 ETH на каждом.
+
+### 3. Развертывание контракта
+
+Откройте **второй терминал**:
+
+```bash
+cd /home/misha/projects/payment-smart-contract/packages/hardhat
+
+# Компиляция контракта
+node_modules/.bin/hardhat compile
+
+# Развертывание на локальную сеть
+node_modules/.bin/hardhat run scripts/deploy-payment.js --network localhost
+```
+
+**Скопируйте адрес развернутого контракта** из вывода (например: `0x5FbDB2315678afecb367f032d93F642f64180aa3`).
+
+### 4. Настройка Backend
+
+В **третьем терминале**:
+
+```bash
+cd /home/misha/projects/payment-smart-contract/backend
+
+# Создайте .env файл
+cp env.example .env
+
+# Отредактируйте .env и вставьте адрес контракта
+nano .env
+# или
+code .env
+```
+
+Содержимое `.env`:
+```env
+RPC_URL=http://127.0.0.1:8545
+CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3  # Вставьте ваш адрес
+PORT=3001
+```
+
+Запустите сервер:
+
+```bash
+npm start
+```
+
+Backend будет доступен на `http://localhost:3001`
+
+### 5. Настройка Frontend
+
+В **четвертом терминале**:
+
+```bash
+cd /home/misha/projects/payment-smart-contract/frontend
+
+# Создайте .env файл
+cp env.example .env
+
+# Отредактируйте .env
+nano .env
+```
+
+Содержимое `.env`:
+```env
+VITE_CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3  # Вставьте ваш адрес
+VITE_BACKEND_URL=http://localhost:3001
+```
+
+Запустите dev-сервер:
+
+```bash
+npm run dev
+```
+
+Frontend будет доступен на `http://localhost:3000`
+
+### 6. Настройка MetaMask
+
+1. **Импортируйте тестовый аккаунт:**
+   - В выводе `hardhat node` найдите `Account #0` и его `Private Key`
+   - Откройте MetaMask → Import account → вставьте приватный ключ
+   - У вас будет 10,000 ETH для тестирования!
+
+2. **Добавьте локальную сеть:**
+   - Network Name: `Hardhat Local`
+   - RPC URL: `http://127.0.0.1:8545`
+   - Chain ID: `31337`
+   - Currency Symbol: `ETH`
+
+3. **Откройте приложение:**
+   - Перейдите на `http://localhost:3000`
+   - Нажмите "Подключить MetaMask"
+   - Готово к использованию!
+
+## 📚 Функционал
+
+### Смарт-контракт
+
+- **Приём платежей:**
+  - `makePayment()` - публичная функция для отправки ETH
+  - `receive()` - автоматический приём прямых переводов
+  - `fallback()` - обработка вызовов без данных
+
+- **Чтение данных:**
+  - `getPaymentsCount()` - количество платежей
+  - `getPayment(uint256 index)` - информация о платеже
+  - `getAllPayments()` - все платежи
+  - `getBalance()` - баланс контракта
+
+- **Управление средствами:**
+  - `withdraw(uint256 amount)` - вывод средств (только владелец)
+  - `withdrawAll()` - вывод всех средств (только владелец)
+
+- **События:**
+  - `PaymentReceived` - при получении платежа
+  - `Withdraw` - при выводе средств
+
+### Backend API
+
+- `GET /payments` - список всех платежей
+- `GET /balance` - баланс контракта
+- `GET /health` - проверка работоспособности
+
+### Frontend
+
+- Подключение к MetaMask
+- Отправка платежей через контракт
+- Просмотр истории платежей
+- Отображение баланса контракта
+- Автоматическое обновление данных
+
+## 🔧 API Endpoints
+
+### GET /payments
+
+Получить список всех платежей.
+
+**Ответ:**
+```json
+{
+  "success": true,
+  "count": 2,
+  "payments": [
+    {
+      "index": 0,
+      "sender": "0x742d35Cc6634C0532925a3b844Bc9e",
+      "amount": "100000000000000000",
+      "amountEth": "0.1",
+      "timestamp": "1234567890",
+      "date": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+### GET /balance
+
+Получить баланс контракта.
+
+**Ответ:**
+```json
+{
+  "success": true,
+  "balance": "200000000000000000",
+  "balanceEth": "0.2"
+}
+```
+
+### GET /health
+
+Проверка работоспособности сервера.
+
+**Ответ:**
+```json
+{
+  "success": true,
+  "status": "ok",
+  "blockNumber": 12345,
+  "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+}
+```
+
+## 🧪 Тестирование
+
+### Запуск тестов контракта
+
+```bash
+cd packages/hardhat
+node_modules/.bin/hardhat test test/PaymentContract.test.ts
+```
+
+### Получение тестовых ETH
+
+**Локальная сеть Hardhat:**
+- При запуске `hardhat node` автоматически создаются 20 аккаунтов
+- Каждый аккаунт имеет 10,000 ETH
+- Импортируйте приватный ключ в MetaMask
+
+**Testnet (Sepolia):**
+- Получите тестовые ETH через faucet:
+  - [sepoliafaucet.com](https://sepoliafaucet.com/)
+  - [chain.link/faucet/sepolia](https://faucets.chain.link/sepolia)
+
+## 🔒 Безопасность
+
+### В контракте:
+- Проверка суммы платежа (> 0)
+- Модификатор `onlyOwner` для функций вывода
+- Проверка баланса перед выводом
+- Использование `call()` вместо устаревшего `transfer()`
+
+### Рекомендации для production:
+- Добавьте rate limiting
+- Реализуйте пагинацию для получения платежей
+- Добавьте возможность установки лимитов
+- Проведите аудит безопасности
+- Протестируйте на testnet перед mainnet
+
+## 📖 Как это работает
+
+### Поток отправки платежа:
+
+1. Пользователь вводит сумму и нажимает "Отправить платеж"
+2. Frontend создаёт транзакцию через MetaMask
+3. Пользователь подтверждает транзакцию в MetaMask
+4. Транзакция отправляется в блокчейн
+5. Контракт сохраняет информацию о платеже
+6. Frontend обновляет данные через Backend API
+
+### Поток чтения данных:
+
+1. Frontend запрашивает данные через Backend API
+2. Backend читает данные из контракта через ethers.js
+3. Backend форматирует данные (wei → ETH, timestamp → дата)
+4. Backend возвращает JSON
+5. Frontend отображает данные в UI
+
+
